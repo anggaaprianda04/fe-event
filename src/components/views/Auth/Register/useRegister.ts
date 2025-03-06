@@ -3,13 +3,13 @@ import * as yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegister } from "@/types/Auth";
-import authServices from "@/services/auth";
+import authServices from "@/services/auth.service";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 
 const registerSchema = yup.object().shape({
   fullName: yup.string().required("Please input your fullname"),
-  username: yup.string().required("Please input your username"),
+  userName: yup.string().required("Please input your username"),
   email: yup
     .string()
     .email("Email format not valid")
@@ -17,6 +17,7 @@ const registerSchema = yup.object().shape({
   password: yup
     .string()
     .min(8, "Minimal 8 Characters")
+    .matches(/[A-Z]/, "Password must contain at least one uppercase letter")
     .required("Please input your password"),
   confirmPassword: yup
     .string()
@@ -57,13 +58,13 @@ const useRegister = () => {
   const { mutate: mutateRegister, isPending: isPendingRegister } = useMutation({
     mutationFn: registerService,
     onError(error) {
-        setError("root", {
-            message: error.message,
-        })
+      setError("root", {
+        message: error.message,
+      })
     },
     onSuccess() {
-        router.push("/auth/register/success")
-        reset();
+      router.push("/auth/register/success")
+      reset();
     },
   })
 

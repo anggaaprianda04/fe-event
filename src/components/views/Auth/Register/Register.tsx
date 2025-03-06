@@ -72,7 +72,7 @@ const Register = () => {
             />
 
             <Controller
-              name="username"
+              name="userName"
               control={control}
               render={({ field }) => (
                 <Input
@@ -81,8 +81,8 @@ const Register = () => {
                   label="Username"
                   variant="bordered"
                   autoComplete="off"
-                  isInvalid={errors.username !== undefined}
-                  errorMessage={errors.username?.message}
+                  isInvalid={errors.userName !== undefined}
+                  errorMessage={errors.userName?.message}
                 />
               )}
             />
