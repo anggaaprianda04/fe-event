@@ -12,5 +12,6 @@ export default function Home() {
       <PageHead title="Home" />
       <Button color="primary">Click</Button>
     </main>
+    // mantap
   );
 }
