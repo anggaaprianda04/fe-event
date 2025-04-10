@@ -41,3 +41,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 # Trigger CI
 # Trigger CI
 # Trigger CI for master
+# Trigger CI for master
