@@ -1,7 +1,7 @@
 import PageHead from "@/components/commons/PageHead";
 import React, { ReactNode, useState } from "react";
 import DashboardLayoutSidebar from "./DashboardLayoutSidebar";
-import { SIDEBAR_ADMIN, SIDEBAR_MEMBER } from "./DashboardLayout.constan";
+import { SIDEBAR_ADMIN, SIDEBAR_MEMBER } from "./DashboardLayout.constans";
 import { Navbar, NavbarMenuToggle } from "@heroui/react";
 
 interface Proptypes {
