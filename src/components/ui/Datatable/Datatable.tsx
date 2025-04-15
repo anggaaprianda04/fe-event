@@ -79,7 +79,7 @@ const DataTable = (props: PropTypes) => {
 
   const BottomContent = useMemo(() => {
     return (
-      <div className="flex items-center justify-center px-2 py-2 lg:justify-between">
+      <div className="flex items-center justify-center lg:justify-between">
         <Select
           className="hidden max-w-36 lg:block"
           size="md"
@@ -87,6 +87,7 @@ const DataTable = (props: PropTypes) => {
           selectionMode="single"
           onChange={onChangeLimit}
           startContent={<p className="text-small">Show:</p>}
+          disallowEmptySelection
         >
           {LIMIT_LIST.map((item) => (
             <SelectItem key={item.value} textValue={`${item.value}`}>
@@ -94,14 +95,17 @@ const DataTable = (props: PropTypes) => {
             </SelectItem>
           ))}
         </Select>
-        <Pagination
-          isCompact
-          showControls
-          color="danger"
-          page={currentPage}
-          total={totalPages}
-          onChange={onChangePage}
-        />
+        {totalPages > 1 && (
+          <Pagination
+            isCompact
+            showControls
+            color="danger"
+            page={currentPage}
+            total={totalPages}
+            onChange={onChangePage}
+            loop
+          />
+        )}
       </div>
     );
   }, [limit, currentPage, totalPages, onChangeLimit, onChangePage]);

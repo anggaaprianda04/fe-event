@@ -4,4 +4,8 @@ const LIMIT_LIST = [
     { label: "16", value: 16 },
 ]
 
-export { LIMIT_LIST };
+const LIMIT_DEFAULT = LIMIT_LIST[0].value;
+const PAGE_DEFAULT = 1;
+const DELAY = 500;
+
+export { LIMIT_DEFAULT, PAGE_DEFAULT, LIMIT_LIST, DELAY };
