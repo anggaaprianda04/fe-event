@@ -1,11 +1,12 @@
 import DataTable from "@/components/ui/Datatable";
-import { Button } from "@heroui/react";
+import { Button, useDisclosure } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { Key, ReactNode, useCallback, useEffect } from "react";
 import { COLUMN_LISTS_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import InputFile from "@/components/ui/InputFile";
+import AddCategoryModal from "./AddCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -20,7 +21,10 @@ const Category = () => {
     handleChangePage,
     handleSearch,
     handleClearSearch,
+    refecthCategory,
   } = useCategory();
+
+  const addCategorModal = useDisclosure();
 
   useEffect(() => {
     if (isReady) {
@@ -74,12 +78,15 @@ const Category = () => {
           onChangePage={handleChangePage}
           onChangeSearch={handleSearch}
           onClearSearch={handleClearSearch}
-          onClickButtonTopContent={() => {}}
+          onClickButtonTopContent={addCategorModal.onOpen}
           renderCell={renderCell}
           totalPages={dataCategory?.pagination.totalPages}
         />
       )}
-      <InputFile name="input" isDropable />
+      <AddCategoryModal
+        refecthCategory={refecthCategory}
+        {...addCategorModal}
+      />
     </section>
   );
 };
