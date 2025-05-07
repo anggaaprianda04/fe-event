@@ -2,11 +2,8 @@ interface ICategory {
     _id?: string;
     name: string;
     description: string;
-    icon: string;
+    icon?: string | FileList;
 }
 
-interface ICategoryFrom extends ICategory {
-    icon: FileList;
-}
 
-export type { ICategory, ICategoryFrom };
+export type { ICategory };
