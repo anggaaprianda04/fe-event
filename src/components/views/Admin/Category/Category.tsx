@@ -7,6 +7,7 @@ import { COLUMN_LISTS_CATEGORY } from "./Category.constants";
 import useCategory from "./useCategory";
 import InputFile from "@/components/ui/InputFile";
 import AddCategoryModal from "./AddCategoryModal";
+import DeleteCategoryModal from "./DeleteCategoryModal";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
@@ -22,9 +23,12 @@ const Category = () => {
     handleSearch,
     handleClearSearch,
     refecthCategory,
+    selectedId,
+    setSelectedId,
   } = useCategory();
 
   const addCategorModal = useDisclosure();
+  const deleteCategoryModal = useDisclosure();
 
   useEffect(() => {
     if (isReady) {
@@ -37,10 +41,10 @@ const Category = () => {
       const cellValue = category[columnKey as keyof typeof category];
 
       switch (columnKey) {
-        // case "icon":
-        //   return (
-        //     <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
-        //   );
+        case "icon":
+          return (
+            <Image src={`${cellValue}`} alt="icon" width={100} height={200} />
+          );
         case "actions":
           return (
             <div className="flex justify-center gap-2">
@@ -51,7 +55,14 @@ const Category = () => {
               >
                 Detail
               </Button>
-              <Button key="delete-category" color="danger">
+              <Button
+                onPress={() => {
+                  setSelectedId(`${category._id}`);
+                  deleteCategoryModal.onOpen();
+                }}
+                key="delete-category"
+                color="danger"
+              >
                 Delete
               </Button>
             </div>
@@ -84,8 +95,14 @@ const Category = () => {
         />
       )}
       <AddCategoryModal
-        refecthCategory={refecthCategory}
         {...addCategorModal}
+        refecthCategory={refecthCategory}
+      />
+      <DeleteCategoryModal
+        {...deleteCategoryModal}
+        selectedId={selectedId}
+        setSelectedId={setSelectedId}
+        refecthCategory={refecthCategory}
       />
     </section>
   );
