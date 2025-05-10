@@ -1,13 +1,45 @@
 import InputFile from "@/components/ui/InputFile";
-import { Button, Card, CardBody, CardHeader, Skeleton } from "@heroui/react";
+import {
+  Button,
+  Card,
+  CardBody,
+  CardHeader,
+  Skeleton,
+  Spinner,
+} from "@heroui/react";
 import Image from "next/image";
+import useIconTab from "./useIconTab";
+import { Controller } from "react-hook-form";
+import { useEffect } from "react";
+import { ICategory } from "@/types/Category";
 
 interface PropTypes {
   currentIcon: string;
+  onUpdate: (data: ICategory) => void;
+  isPendingUpdate: boolean;
+  isSuccessUpdate: boolean;
 }
 
 const IconTab = (props: PropTypes) => {
-  const { currentIcon } = props;
+  const { currentIcon, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const {
+    handleUploadIcon,
+    handleDeleteIcon,
+    isPendingMutateDeleteFile,
+    isPendingMutateUploadFile,
+
+    controlUpdateIcon,
+    errosUpdateIcon,
+    handleSubmitUpdateIcon,
+    resetUpdateIcon,
+    preview,
+  } = useIconTab();
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      resetUpdateIcon();
+    }
+  }, [isSuccessUpdate]);
 
   return (
     <Card className="w-full p-4 lg:w-1/2">
@@ -18,7 +50,10 @@ const IconTab = (props: PropTypes) => {
         </p>
       </CardHeader>
       <CardBody>
-        <form className="flex flex-col gap-4" onSubmit={() => {}}>
+        <form
+          className="flex flex-col gap-4"
+          onSubmit={handleSubmitUpdateIcon(onUpdate)}
+        >
           <div className="flex flex-col gap-2">
             <p className="text-sm font-medium text-default-700">Current Icon</p>
             <Skeleton
@@ -28,21 +63,39 @@ const IconTab = (props: PropTypes) => {
               <Image src={currentIcon} alt="icon" fill className="!relative" />
             </Skeleton>
           </div>
-          <InputFile
+          <Controller
             name="icon"
-            isDropable
-            label={
-              <p className="mb-2 text-sm font-medium text-default-700">
-                Upload new icon
-              </p>
-            }
+            control={controlUpdateIcon}
+            render={({ field: { onChange, value, ...field } }) => (
+              <InputFile
+                {...field}
+                onDelete={() => handleDeleteIcon(onChange)}
+                onUpload={(files) => handleUploadIcon(files, onChange)}
+                isUploading={isPendingMutateUploadFile}
+                isDeleting={isPendingMutateDeleteFile}
+                isInvalid={errosUpdateIcon.icon !== undefined}
+                errorMessage={errosUpdateIcon.icon?.message}
+                isDropable
+                preview={typeof preview === "string" ? preview : ""}
+                label={
+                  <p className="mb-2 text-sm font-medium text-default-700">
+                    Upload New Icon
+                  </p>
+                }
+              />
+            )}
           />
           <Button
             type="submit"
             color="danger"
             className="mt-2 disabled:bg-default-500"
+            disabled={isPendingMutateUploadFile || isPendingUpdate || !preview}
           >
-            Save Changes
+            {isPendingUpdate ? (
+              <Spinner size="sm" color="white" />
+            ) : (
+              "Save Changes"
+            )}
           </Button>
         </form>
       </CardBody>
