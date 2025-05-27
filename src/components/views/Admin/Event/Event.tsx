@@ -1,10 +1,8 @@
 import DataTable from "@/components/ui/Datatable";
-import { Button, Chip, useDisclosure } from "@heroui/react";
+import { Chip, useDisclosure } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import React, { Key, ReactNode, useCallback, useEffect } from "react";
-// import AddCategoryModal from "./AddCategoryModal";
-// import DeleteCategoryModal from "./DeleteCategoryModal";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import useEvent from "./useEvent";
 import { COLUMN_LISTS_EVENT } from "./Event.constans";
