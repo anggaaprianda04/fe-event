@@ -1,6 +1,6 @@
 import axios from "axios";
 import environment from "@/config/environment";
-import { getSession } from "next-auth/react";
+import { getSession, signOut } from "next-auth/react";
 import { SessionExtended } from "@/types/Auth";
 
 const headers = {
@@ -28,7 +28,11 @@ instance.interceptors.response.use(
     async (response) => {
         return response;
     },
-    (error) => Promise.reject(error),
+    async (error) => {
+        if (error.response && error.response.status === 401) {
+            await signOut();
+        }
+    }
 )
 
 export default instance;

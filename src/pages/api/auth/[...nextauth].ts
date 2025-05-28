@@ -1,4 +1,3 @@
-import environment from "@/config/environment";
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { JWTExtended, SessionExtended, UserExtended } from "@/types/Auth";
@@ -9,7 +8,7 @@ export default NextAuth({
         strategy: "jwt",
         maxAge: 60 * 60 * 24,
     },
-    secret: environment.AUTH_SECRET,
+    secret: process.env.NEXTAUTH_SECRET,
     providers: [
         CredentialsProvider({
             id: "credentials",
