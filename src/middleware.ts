@@ -8,7 +8,7 @@ export async function middleware(request: NextRequest) {
         req: request,
         secret: process.env.NEXTAUTH_SECRET,
     });
-
+    // tets
     const { pathname } = request.nextUrl;
 
     if (pathname === "/auth/login" || pathname === "/auth/register") {
