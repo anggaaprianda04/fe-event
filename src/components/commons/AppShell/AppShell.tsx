@@ -25,7 +25,7 @@ const AppShell = (props: PropTypes) => {
     return () => {
       clearTimeout(timeout);
     };
-  }, [toaster]);
+  }, [toaster, setToaster]);
 
   return (
     <>
