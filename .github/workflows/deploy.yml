@@ -20,13 +20,15 @@ jobs:
       - name: 🏗️ Run Build
         run: npm run build
 
-      - name: 🚀 Deploy to Vercel (Production for `main`, Preview for `dev`)
-        uses: amondnet/vercel-action@v25
-        with:
-          vercel-token: ${{ secrets.VERCEL_TOKEN }}
-          vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
-          vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
-          working-directory: ./
-          vercel-args: ${{ github.ref == 'refs/heads/main' && '--prod' || '' }}
-        env:
-          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      - name: 🚀 Deploy to Vercel using CLI
+        run: |
+          npm install -g vercel
+
+          # Cek branch: deploy --prod jika di main, preview jika di dev
+          if [ "${{ github.ref }}" = "refs/heads/main" ]; then
+            echo "🚀 Deploying to Production..."
+            vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --confirm
+          else
+            echo "🚧 Deploying to Preview (dev)..."
+            vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm
+          fi
