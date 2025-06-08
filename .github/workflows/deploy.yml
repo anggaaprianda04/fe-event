@@ -5,9 +5,14 @@ on:
     branches:
       - main
       - dev
+  pull_request:
+    branches:
+      - main
+      - dev
 
 jobs:
   build-and-deploy:
+    if: github.event_name == 'push' # ❗ hanya jalankan saat push langsung, bukan PR
     runs-on: ubuntu-latest
 
     steps:
@@ -24,11 +29,10 @@ jobs:
         run: |
           npm install -g vercel
 
-          # Cek branch: deploy --prod jika di main, preview jika di dev
           if [ "${{ github.ref }}" = "refs/heads/main" ]; then
             echo "🚀 Deploying to Production..."
             vercel --token=${{ secrets.VERCEL_TOKEN }} --prod --confirm
           else
-            echo "🚧 Deploying to Preview (dev)..."
+            echo "🚧 Deploying to Preview..."
             vercel --token=${{ secrets.VERCEL_TOKEN }} --confirm
           fi
