@@ -10,6 +10,7 @@ export default function Home() {
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
       <PageHead title="Home" />
+      <h1>Test</h1>
       <Button color="primary">Click</Button>
     </main>
     // mantap
